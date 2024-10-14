@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gissningsspel</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="card-wrapper">
+  <div class="card">
+    <p>I need you to guess a number between 1 and 100</p>
+    
+    <input class="inputBox"type="number" id="textInput" placeholder="guess a number between 1 and 100" inputmode="numeric" pattern="[0-9]*">
+    
+    <button id="myButton" class="mybutton" onclick="checkGuess()">Gissa</button>
+    
+    <p class="feedback" id="feedback"></p>
+    <p class="previousGuesses" id="previousGuesses">You guess</p>
+    <p class="guessCount" id="guessCount"></p>
+  </div>
+  
+  <div class="container-result card">
+    <p>Previous Guesses</p>
+    <ul class="guessList" id="guessList"></ul>
+  </div>
+  
+</div>
+
+
+  
+  <script>
+    
+  const randomComputerNumber = Math.floor(Math.random() * 100) +1;
+  console.log(`Random computer number is ${randomComputerNumber}`);
+
+  let previousGuessesArray =[];
+  let guessCount = 1;
+
+
+  function checkGuess() {
+    const guessedNumber = parseInt(document.getElementById('textInput').value);
+    const feedback = document.getElementById('feedback');
+    const previousGuesses = document.getElementById('previousGuesses');
+    const guessCountDisplay = document.getElementById('guessCount');
+    
+    const guessList = document.getElementById('guessList');
+
+    const newGuessItem = document.createElement('li');
+    newGuessItem.textContent = (`Guessattemts ${guessCount}: guessnumber ${guessedNumber}`);
+    guessList.appendChild(newGuessItem);
+
+    if(isNaN(guessedNumber) || guessedNumber < 1 || guessedNumber > 100) {
+      feedback.textContent = "Please enter a valid number between 1 and 100.";
+      alert("please enter a valid number between 1 and 100.");
+      return;
+    }
+
+      guessCount++;
+      previousGuessesArray.push(guessedNumber);
+    
+    
+    
+      if(guessedNumber < randomComputerNumber) {
+      feedback.textContent = "Too low.";
+      // alert("too low");
+    } else if (guessedNumber > randomComputerNumber) {
+      feedback.textContent = "Too high.";
+      // alert("too hight");
+    } else {
+      feedback.textContent = "You are correct";
+      alert("Correct")
+    }
+    previousGuesses.textContent = (`Your guesses has been: ${previousGuessesArray.join(', ')}`);
+    guessCountDisplay.textContent = (`number of guesses: ${guessCount}`)
+
+    document.getElementById('textInput').value ='';
+  }
+document.getElementById('textInput').addEventListener('keydown', function (event){
+  if (event.key ==='Enter') {
+    checkGuess();
+  }
+});
+
+  </script>
+</body>
+</html>
